@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../CSS/bootstrap.css" rel="stylesheet" />
+    <script src="https://cdn.staticfile.org/angular.js/1.7.6/angular.min.js"></script>
+    <script src="../JS/jquery-3.3.1.min.js"></script>
+    <style>
+        * {margin:0px;padding:0px;}
+        #bg {background-image:url(../Imges/static/登录背景图.jpg);background-size:cover;background-position-y:-50px;width: 100%; height: 650px;padding-top:250px;}
+        #LoginDiv {width:600px;height:300px;margin:auto;}
+        .ulfloat {background-color:#000;opacity:0.6;}
+        .ulfloat li{width:200px;height:50px;text-align:center;line-height:50px;float:left;list-style:none;color:#544949;font-weight:600;font-size:20px;cursor:pointer}
+        .ulfloat {overflow:hidden;margin:0px;padding:0px;}
+        .Content {background:#fff;width:600px;height:300px;margin-top:0px;opacity:0.6;}
+        .activer {background:#fff;}
+        .input-with {padding-top:50px;width:400px;margin:auto;}
+        .btn-right {width:400px; margin:auto;text-align:center;}
+        .btn-right input {width:150px; height:45px;}
+        .btn-right span { margin:0px 40px;}
+    </style>
+
+    <script>
+        var app = angular.module("MyApp", []);
+        
+        app.controller("MyCtrl", function ($scope,$http) {
+            $scope.page1 = false;$scope.page2 = true;$scope.page3 = false;$scope.page4 = false;
+            $scope.index = 2;
+            $scope.show = function (page) {
+                $scope.index = page;
+                if (page == 1) {
+                    $scope.page1 = true; $scope.page2 = false; $scope.page3 = false; $scope.page4 = false;
+                }
+                else if (page == 2) {
+                    $scope.page1 = false; $scope.page2 = true; $scope.page3 = false; $scope.page4 = false;
+                }
+                else if (page == 3) {
+                    $scope.page1 = false;$scope.page2 = false;$scope.page3 = true;$scope.page4 = false;
+                }
+                else {
+                    $scope.index = 1;$scope.page1 = false;$scope.page2 = false;$scope.page3 = false;$scope.page4 = true;
+                }
+            }
+            $scope.loginclick = function () {
+                //window.location.href = 'Lable.html'
+                $scope.logindata={
+                    usename:$scope.loginname,
+                    usepwd:$scope.loginpwd,
+                }
+                $http({
+                    method: 'POST',
+                    url: 'http://39.96.174.51:80/API/login/Login.ashx',
+                    data: $scope.logindata,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function success(da) {
+                    //$scope.arr = da.data;
+                    if (da.data != "登陆失败") {
+                      
+                        console.log(da.data[0].Users_ID)
+                        var s = da.data[0].Users_ID
+                        localStorage.setItem("用户名", s);
+                        console.log(localStorage.getItem(localStorage.key("用户名")))
+                       location.href = "Menu.html#!/a"
+                            //+ "ID=" + encodeURI(s);//在本页面打开新页面
+                    }
+                    else {
+                        alert("登陆失败")
+                    }
+                }, function error() {
+                $scope.arr2 = '请求失败';
+            });
+            }
+
+            $scope.VerificationCode = function () {
+               
+                $scope.Verificatiodata = {
+                    usename: $scope.VerificationCodephone,
+                }
+                console.log($scope.Verificatiodata);
+                $http({
+                    method: 'POST',
+                   
+                    url: 'http://39.96.174.51:80/API/login/VerificationCode.ashx',
+                    data: $scope.Verificatiodata,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function success(da) {
+                    alert("已发送验证码请在手机查看")
+                    $scope.VerificationCode = da.data;
+                }, function error() {
+                    $scope.arr2 = '请求失败';
+                });
+
+            }
+
+            $scope.InsertUser = function () {
+                //在此进行账号注册
+
+                //声明要传递的对象
+                $scope.registerdata = {
+                    usename: $scope.VerificationCodephone,//获取值
+                    usepwd: $scope.password2,//获取值
+                }
+                $http({//发起请求
+                    method: 'POST',
+                    url: 'http://39.96.174.51:80/API/login/register.ashx',//提交的路径
+                    data: $scope.registerdata,//提交的数据
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },//进行数据格式化
+                    transformRequest: function (obj) {//进行数据格式化
+                        var str = [];//进行数据格式化
+                        for (var p in obj) {//进行数据格式化
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));//进行数据格式化
+                        }//进行数据格式化
+                        return str.join("&");//进行数据格式化
+                    }
+                }).then(function success(da) {//成功时执行的方法
+                    console.log(da.data[0].Users_ID)
+                    var s = da.data[0].Users_ID
+                    localStorage.setItem("用户名", s);
+                    console.log(localStorage.getItem(localStorage.key("用户名")))
+                    location.href = "Labelselectionl.html"
+
+                }, function error() {//失败时执行的方法
+                    $scope.arr2 = '请求失败';
+                });
+            }
+            
+
+
+            $scope.Verificationchange = function () {
+                if ($scope.VerificationCode == $scope.yanzhengma) {
+                    $scope.Verificationshow = false;
+                }
+                else {
+                    $scope.Verificationshow = true;
+                }
+            }
+
+            $scope.Confirmpassword = function () {
+                if ($scope.password2 == $scope.password1) {
+                    $scope.passwordshow = false;
+                }
+                else {
+                    $scope.passwordshow = true;
+                }
+            }
+        });
+    </script>
+</head>
+
+<body ng-app="MyApp">
+    
+    <div id="bg" ng-controller="MyCtrl">
+        <div id="LoginDiv">
+                <ul class="ulfloat" >
+                    <li ng-class="{'activer':index==(1||4)}" ng-click="show(1)">注册</li>
+                    <li ng-class="{'activer':index==2}" ng-click="show(2)">登录</li>
+                    <li ng-class="{'activer':index==3}" ng-click="show(3)">下载APP</li>
+                </ul>
+            <!--页面1-->
+            <div class="Content" ng-show="page1">
+                <div class="input-with">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-btn">
+                            <input class="btn btn-success" type="button" value="短信验证" ng-click="VerificationCode()"/>
+                        </span>
+                        <input type="text" class="form-control" placeholder="请输入大陆手机号" ng-model="VerificationCodephone"/>
+                    </div>
+                    <br />
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">&nbsp;验&nbsp;证&nbsp;码</span>
+                        <input type="text" class="form-control " placeholder="请输入 4 位验证码" ng-model="yanzhengma" ng-change="Verificationchange()">
+                        
+                    </div>
+                    <label ng-if="Verificationshow">验证码错误</label>
+                    <br />
+                    <br />
+                    <div class="btn-right">
+                        <input class="btn btn-success" type="button" value="下一步" ng-click="show(4)"/>
+                        <span></span>
+                        <input class="btn btn-success" type="button" value="取&nbsp;&nbsp;&nbsp;&nbsp;消"  ng-click="show(2)"/>
+                    </div>
+                    </div>
+            </div>
+            <!--页面2-->
+            <div class="Content" ng-show="page2">
+                <div class="input-with">
+
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">+ 86</span>
+                        <input type="text" class="form-control " placeholder="手机号码/昵称" ng-model="loginname">
+                    </div>
+                    <br />
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">密码</span>
+                        <input type="password" class="form-control " placeholder="请输入密码" ng-model="loginpwd">
+                    </div>
+                    <br />
+                        <input type="button" class="form-control btn-success" value="手 机 账 号 登 录" ng-click="loginclick()" />
+                    <br />
+                    <br />
+                    <a href="UpdatePwd.html">忘记密码？</a>
+                </div>
+                
+            </div>
+            <!--页面3-->
+            <div class="Content" ng-show="page3" style="text-align:center">
+                <img src="../img/联图二维码.png" />
+            </div>
+            <!--页面4-->
+            <div class="Content" ng-show="page4">
+                <div class="input-with">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">&nbsp; 密 &nbsp;&nbsp; 码&nbsp; </span>
+                        <input type="password" class="form-control " placeholder="请输入 6-12 位验证码" ng-model="password1">
+                    </div>
+                    <br />
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">确认密码</span>
+                        <input type="password" class="form-control " placeholder="请输入 6-12 位验证码"  ng-model="password2" ng-change="Confirmpassword()">
+                    </div>
+                    <label ng-if="passwordshow">两次密码不一致</label>
+                    <br />
+                    <div class="btn-right">
+                        <input class="btn btn-success" type="button" value="完 成" ng-click="InsertUser()" />
+                        <span></span>
+                        <input class="btn btn-success" type="button" value="上一步"  ng-click="show(1)"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</body>
+</html>

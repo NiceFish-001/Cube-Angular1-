@@ -1,0 +1,47 @@
+﻿
+    <style>
+
+        #lable-body {
+         width: 900px;
+            height: 900px;
+            border: 1px solid;
+            margin: 120px auto;
+            background-color: #fff;
+            padding:30px;
+            overflow:hidden;
+        }
+        .lable-background:hover {
+        opacity:0.4
+        }
+        .lable-addinput {
+        text-align:right;
+        }
+        .lable-title {
+        width:100%;
+        text-align:center;
+        height:80px;
+        line-height:80px;
+        font-size:60px;
+        color:#808080;
+        margin-bottom:40px;
+        }
+        .lable-row {
+        height:70px;
+       line-height:70px;
+        }
+    </style>
+
+    <div id="lable-body">
+        <div class="lable-title"><strong>标签活跃度TOP10</strong></div>
+       <table class="table table-hover">
+           <tr ng-repeat="item in AllTopLongarticle">
+               <td class="lable-row">排名:{{$index+1}}</td>
+               <td class="lable-row">标签名称:{{item.user_interest}}</td>
+               <td class="lable-addinput lable-row"><input type="button" class="btn btn-success" value="添加到我的兴趣" ng-click="InsertTopLable($index)"/></td>
+           </tr>
+          
+
+        
+       </table>
+    </div>
+

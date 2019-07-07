@@ -1,0 +1,88 @@
+﻿
+    <style>
+        * {
+        margin:0px;
+        padding:0px;
+        }
+        .Personal-body {
+        width:900px;
+        margin:auto;
+        background:#fff;
+        border:1px solid #DDDDDD;
+        overflow:hidden;
+        margin-top:60px;
+        }
+        .Personal-head {
+        border-bottom:1px solid #DDDDDD;
+        font-size:30px;
+        padding:30px;
+        }
+        .Personal-left {
+        background: #F7F7F7;
+       text-align:center;
+        width:160px;
+        }
+        .Personal-footer {
+            text-align:right;
+            padding:30px;
+        }
+        .userheadshow img {
+        height:120px;
+        width:auto;
+        }
+
+
+    </style>
+    <div class="Personal-body">
+        <div class="Personal-head">
+            <span>账号设置</span>
+        </div>
+       <table class="table">
+           <tr>
+               <td class="Personal-left">个人头像</td>
+               
+               <td>
+                   <div style="background:#000;width:120px;height:120px;overflow:hidden;text-align:center;" id="userheadshow" class="img-circle userheadshow"  ng-bind-html="usercenter[0].Users_Img|to_trusted">
+                     
+                   </div>
+                   <input type="button"  class="btn btn-success" value="修改个人头像" />
+                   <input type="file" style="position:absolute;top:374px;opacity:0" id="Userhead" onchange="angular.element(this).scope().imgchanges()"/>
+               </td>
+           </tr>
+
+           <tr>
+               <td class="Personal-left">我的昵称</td>
+               <td>
+                  <p style="width:300px;"><input type="text" class="form-control" ng-model="Users_Nickname"/></p> 
+               </td>
+           </tr>
+
+           <tr>
+               <td class="Personal-left">个人介绍</td>
+               <td>
+                   <textarea class="form-control" rows="3" style="width:500px;height:200px;resize:none;" ng-model="User_introduction"></textarea>
+               </td>
+           </tr>
+
+           <tr>
+               <td class="Personal-left">手机账号</td>
+               <td>
+                   <p><strong>+86  </strong><strong>   {{usercenter[0].Users_AccountNumber}}</strong></p>
+                   <p><a href="UpdatePwd.html" style="text-decoration:none">修改手机账号密码 ></a></p>
+               </td>
+           </tr>
+           <tr style="border-bottom:1px solid #DDDDDD">
+               <td class="Personal-left">兴趣领域</td>
+               <td>
+                   <p>根据兴趣向您推送文章和达人</p>
+                   <p>我的兴趣：<span ng-repeat="items in usercenter">{{items.user_interest}}，</span></p>
+                   <p><a href="jacascript::void(0)" style="text-decoration:none" ng-click="upuserlable()">修改兴趣></a></p>
+               </td>
+           </tr>
+
+       </table>
+        <div class="Personal-footer">
+            <input type="button" class="btn btn-success" value="注销账号" />
+            <input type="button" class="btn btn-success" value="保存信息" ng-click="UserLatestdata()"/>
+        </div>
+    </div>

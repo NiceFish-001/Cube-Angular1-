@@ -1,0 +1,35 @@
+<!--
+  Generated template for the ReplyPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  
+    <ion-toolbar>  
+        <button ion-button clear small navPop >◀</button>  
+        <ion-title class="my-title">发布评论</ion-title>  
+      </ion-toolbar> 
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-item>
+        <ion-input type="text" [(ngModel)]="Reqlyname"></ion-input>
+        
+      </ion-item>
+      
+      <button ion-button block color="green" (click)="ReleaseReply()">
+        发布评论
+      </button>
+      
+  <ion-list>
+
+    <ion-item *ngFor="let item of listData;let i = index">
+      <div><div><span>{{item?.Users_Nickname}}:</span>{{item?.Comment_Content}}</div><div><a (click)="AddReply(i)">回复</a></div></div>
+    </ion-item>
+  
+   </ion-list>
+</ion-content>

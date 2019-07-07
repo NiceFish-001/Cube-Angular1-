@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="jquery-3.3.1.min.js"></script>
+    <link href="bootstrap.css" rel="stylesheet" />
+    <style>
+        * {
+        margin:0px;
+        padding:0px;
+        }
+        #Admin_login_login{
+
+            width:300px;
+            height:350px;
+            margin:auto;
+            box-shadow:0 0 5px #808080;
+            margin-top:40px;
+            background-color:#fff;  border-radius:20px;
+        }
+        #Admin_login_login_top {
+
+            width:100%;
+            height:20%;
+            text-align:center;
+        }
+            #Admin_login_login_top h4 {
+                padding-top:50px;
+               
+                color:#5cafbd;
+            }
+        #Admin_login_login_bottom {
+        padding-top:50px;
+             width:100%;
+            height:80%;
+          
+        }
+            #Admin_login_login_bottom p {
+                text-align:center;
+            }
+            #Admin_login_login_bottom input {
+                width:70%;
+                margin:auto;
+                text-align:center;
+            }
+    </style>
+</head>
+<body>
+    <div style="width:100%;height:740px;padding-top:100px;">
+
+        <div id="Admin_login_login">
+            <div id="Admin_login_login_top">
+                <h4>Cube后台登录</h4>
+            </div>
+
+            <div id="Admin_login_login_bottom">
+            <p><input class="form-control" id="adminid" type="text" placeholder="管理员账户" /></p>
+            <p><input class="form-control" id="adminpwd" type="password" placeholder="密码" /></p>
+            <p><input class="btn btn-success" id="adminloginbtn" type="button" value="登录" /></p>
+            </div>
+          <script>
+              $(function () {
+
+                  $("#adminloginbtn").click(function () {
+                      var adminid = $("#adminid").val();
+                      var adminpwd = $("#adminpwd").val();
+                      location.href = "Admin_index.html"
+
+                  })
+              })
+          </script>
+        </div>
+
+    </div>
+</body>
+</html>

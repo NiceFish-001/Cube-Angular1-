@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../CSS/bootstrap.css" rel="stylesheet" />
+    <script src="https://cdn.staticfile.org/angular.js/1.7.6/angular.min.js"></script>
+    <script src="../JS/jquery-3.3.1.min.js"></script>
+    <script src="../JS/wangEditor.min.js"></script>
+    <style>
+        .w-e-text-container {
+            height: 500px !important; /*!important是重点，因为原div是行内样式设置的高度300px*/
+        }
+
+        .btn-right {
+            width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+
+            .btn-right input {
+                width: 150px;
+                height: 45px;
+            }
+
+            .btn-right span {
+                margin: 0px 40px;
+            }
+    </style>
+    <script type="text/javascript">
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', ['$scope', function ($scope) {
+            //配置wangEditor
+            var E, editor;
+            E = window.wangEditor;
+            editor = new E('#editor'); //id一定要一致
+            editor.customConfig.menus = [
+                'emoticon',
+                'undo'  // 撤销
+            ];
+            editor.customConfig.emotions = [
+           {
+               // tab 的标题
+               title: '默认',
+               // type -> 'emoji' / 'image'
+               type: 'image',
+               // content -> 数组
+               content: [
+                   {
+                       alt: '[坏笑]',
+                       src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
+                   },
+                   {
+                       alt: '[舔屏]',
+                       src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
+                   },
+                   {
+                       alt: '[刘帅]',
+                       src: 'http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/50/pcmoren_huaixiao_org.png'
+                   }
+
+
+               ]
+           },
+
+            ]
+            editor.customConfig.showLinkImg = false
+            editor.customConfig.uploadImgShowBase64 = true;
+            // 将图片大小限制为 10M
+            editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024;
+            editor.create();
+            //获取内容的方式
+            $scope.getContent = function () {
+                var as = editor.txt.html()
+                var NewTr = $("" + as + "");
+                $('#box').append(NewTr)
+            }
+            $scope.getContent2 = function () {
+                alert(editor.txt.text())
+
+            }
+        }]);
+    </script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div id="editor" ng-model="sendPromt"></div>
+    <div class="btn-right">
+        <input class="btn btn-success" ng-click="getContent()" type="button" value="获取html" />
+        <span></span>
+        <input class="btn btn-success" ng-click="getContent2()" type="button" value="获取text" />
+    </div>
+    <div id="box"></div>
+    <audio controls="controls">
+        <source src="http://localhost:54882/MediaResourceses/151dc9df-e4f8-43bf-91f1-550a6a53facc%E8%8B%8F%E8%B0%AD%E8%B0%AD%20-%20%E6%B5%81%E6%B5%AA%EF%BC%88%E7%8B%AC%E5%94%B1%E7%89%88%E6%9C%AC%EF%BC%89.mp3" type="audio/mpeg" />
+    </audio>
+</body>
+</html>

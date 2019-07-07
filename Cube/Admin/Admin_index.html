@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <style>
+        * {
+            margin:0px;
+            padding:0px;
+        }
+        #admin_index_main {
+            width:1530px;height:auto;
+        }
+        #admin_index_head {
+            width:100%;
+            height:70px;         
+            display:flex;
+            justify-content:space-between;
+            box-shadow:0 0 5px #808080;
+        }
+        #admin_index_content {
+            width:100%;
+            height:590px;
+            
+            display:flex;
+            justify-content:space-between;
+         margin-top:5px;
+
+        }
+        #admin_index_content_left {
+            width:15%;
+            height:100%;
+            
+        }
+         #admin_index_content_left ul li{
+             list-style:none;
+             text-align:center;
+        }
+          #admin_index_content_left li{
+             height:120px;
+             line-height:120px;
+        }
+         #admin_index_content_left ul li a{
+             text-decoration:none;
+             display:block;
+             padding:30px 50px;
+             color:#2bd49c;
+             
+        }
+            #admin_index_content_right {
+            width:85%;
+            height:100%;
+            
+        }
+        #admin_index_head_left {
+            width:15%;
+            height:100%;
+            line-height:60px;
+        }
+            #admin_index_head_left p {
+                text-align:center;
+                font-size:30px;
+                font-weight:700;
+                color:#000000;
+                font-family:'Microsoft YaHei';
+            }
+        #admin_index_head_right {
+            width:15%;
+            height:100%;
+            text-align:right;
+        }
+           #admin_index_head_right span {
+               display:inline-block;
+               
+            width:40px;
+            height:40px;
+            margin:10px 10px;
+            }
+    </style>
+</head>
+<body>
+    <div id="admin_index_main">
+        <div id="admin_index_head">
+            <div id="admin_index_head_left">
+                <p >Cube</p>
+            </div>
+
+        </div>
+        <div id="admin_index_content" >
+            <div id="admin_index_content_left">
+                <ul>
+                    <li><a target="admin" href="Admin_Home.html">后台首页</a></li>
+                    <li><a target="admin" href="Admin_User.html">用户管理</a></li>
+                    <li><a  target="admin" href="Admin_Article.html">文章管理</a></li>                 
+                </ul>
+            </div>
+            <div id="admin_index_content_right">
+                <iframe name="admin"  src="Admin_Home.html" style="width:100%;height:100%;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

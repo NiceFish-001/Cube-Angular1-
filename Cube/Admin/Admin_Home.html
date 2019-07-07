@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+	<meta charset="utf-8" />
+    <link href="bootstrap.css" rel="stylesheet" />
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="echarts.min.js"></script>
+    <style>
+        * {
+        margin:0px;
+        padding:0px;
+
+        }
+        #Admin_home_main {
+        width:1200px;
+        height:960px;
+        margin:auto;
+        
+        }
+        #Admin_home_head {
+        width:100%;
+        height:15%;
+       
+        display:flex;
+        justify-content:space-around;
+        
+        }
+
+
+        .Admin_home_list1, .Admin_home_list2,.Admin_home_list3,.Admin_home_list4 {
+        
+            margin-top:10px;
+            width:23%;
+            height:80%;
+            border:1px solid #e1cfcf;
+            border-radius:2px;
+        }
+        .Admin_home_list1 {
+            background-image: url('../img/aqian.png');
+            background-repeat:no-repeat;
+            background-position:60px 35px;
+            
+        }
+        .Admin_home_list2 {
+            background-image: url('../img/aicon-.png');
+            background-repeat: no-repeat;
+            background-position: 60px 35px;
+        }
+        .Admin_home_list3 {
+           
+            background-image: url('../img/ayoujian.png');
+            background-repeat: no-repeat;
+            background-position: 60px 30px;
+        }
+        .Admin_home_list4 {
+            
+            background-image: url('../img/ayonghu.png');
+            background-repeat: no-repeat;
+            background-position: 60px 35px;
+        }
+
+        #Admin_home_content {
+            margin-top:10px;
+        width:100%;
+        height:85%;
+        
+        }
+
+        #Admin_cotent_one {
+        width:98%;
+        height:48%;
+        margin:auto;
+        display:flex;
+        justify-content:space-between;
+        }
+        #Admin_cotent_one_left {
+        
+        width:68%;
+        height:100%;
+        box-shadow: 0 0 5px #808080;
+        
+        }
+        #Admin_cotent_one_right {
+        
+        width:30%;
+        height:100%;
+        box-shadow: 0 0 5px #808080;
+        
+        }
+        #Admin_cotent_two {
+        width:98%;
+        height:60%;
+        margin:auto;
+        
+        margin-top:10px;display:flex;
+        justify-content:space-between;
+        }
+            #Admin_cotent_two_left {
+        
+        width:30%;
+        height:100%;
+        
+        
+        }
+        #Admin_cotent_two_right {
+        
+        width:68%;
+        height:95%;
+        box-shadow: 0 0 5px #808080;
+        
+        }
+        #Admin_cotent_two_left_top {
+        width:100%;
+        height:28%;
+        margin-bottom:4%;
+        box-shadow: 0 0 5px #808080;
+        }
+         #Admin_cotent_two_left_off {
+        width:100%;
+        height:68%;
+        
+        box-shadow: 0 0 5px #808080;
+        }
+
+    </style>
+    <script>
+        $(function () {
+           
+           
+            var myCharts = echarts.init(document.getElementById('Admin_cotent_one_right'))
+            options = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                series: [{
+                    name: '标签占比',
+                    type: 'pie',
+                    radius: '68%',
+                    center: ['50%', '50%'],
+                    clockwise: false,
+                    data: [{
+                        value: 45,
+                        name: '时尚'
+                    }, {
+                        value: 25,
+                        name: '摄影'
+                    }, {
+                        value: 15,
+                        name: '旅游'
+                    }, {
+                        value: 8,
+                        name: '生活'
+                    }, {
+                        value: 7,
+                        name: '美食'
+                    }],
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: '#999',
+                                fontSize: 14,
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            borderWidth: 4,
+                            borderColor: '#ffffff',
+                        },
+                        emphasis: {
+                            borderWidth: 0,
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }],
+                color: [
+                    '#00acee',
+                    '#52cdd5',
+                    '#79d9f1',
+                    '#a7e7ff',
+                    '#c8efff'
+                ],
+                backgroundColor: '#fff'
+            };
+            myCharts.setOption(options);
+            
+            var myCharta = echarts.init(document.getElementById('Admin_cotent_two_right'))
+
+            optiona = {
+                //color: ['#3398DB'],
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(255,255,255,0.8)',
+                    extraCssText: 'box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);',
+                    textStyle: {
+                        color: '#6a717b',
+                    },
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                yAxis: [{
+                    type: 'category',
+                    data: ['螺纹螺纹', '正义萝莉', '厌世公子', '加百列', '九五至尊', '阿贾克斯', '爱趣提提皮', '安哥拉', '控制器', 'MVVC'],
+
+                    axisTick: {
+                        alignWithLabel: true,
+                    },
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#94999f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#dbe0e6'
+                        }
+                    },
+
+                }],
+                xAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        margin: 10,
+                        textStyle: {
+                            fontSize: 12,
+                            color: '#94999f'
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#dbe0e6'
+                        }
+                    }
+
+                }],
+                backgroundColor: '#ffffff',
+                series: [{
+                    name: 'Top 10',
+                    type: 'bar',
+                    barWidth: 30,
+                    data: [20, 30, 20, 18, 21, 68, 25, 74, 30, 36],
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'insideRight',
+                            textStyle: {
+                                color: 'white' //color of value
+                            }
+                        }
+                    },
+
+                    itemStyle: {
+
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                offset: 0,
+                                color: '#64bdc8' // 0% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: '#00c484' // 100% 处的颜色
+                            }], false),
+                            barBorderRadius: [0, 15, 15, 0],
+                            shadowColor: 'rgba(0,0,0,0.1)',
+                            shadowBlur: 3,
+                            shadowOffsetY: 3
+                        }
+                    }
+                }]
+            };
+            myCharta.setOption(optiona);
+        })
+    </script>
+</head>
+<body>
+    <div id="Admin_home_main">
+        <div id="Admin_home_content">
+            <div id="Admin_cotent_one">
+                <div id="Admin_cotent_one_right"></div>
+                <div id="Admin_cotent_two_right"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

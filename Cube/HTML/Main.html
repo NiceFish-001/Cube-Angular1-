@@ -1,0 +1,594 @@
+﻿
+<style>
+    /*.border-right{width: 0;height: 0;border-left: 30px solid #333;border-bottom: 30px solid transparent;border-top: 30px solid transparent;}
+        .border-right span{display: block;width: 0;height: 0;border-left: 28px solid #fff;border-bottom: 28px solid transparent;border-top: 28px solid transparent;}*/
+    /*.border-up{width: 0;height: 0;border-left: 30px solid transparent;border-right: 30px solid transparent;border-bottom: 30px solid #333;position: relative;margin: 50px auto;}
+        .border-up span{display: block;width: 0;height: 0;border-left: 28px solid transparent;border-right: 28px solid transparent;border-bottom: 28px solid #F0981C;position: absolute;left: -28px;top: 1px;}
+        .border-down{width: 0;height: 0;border-left: 30px solid transparent;border-right: 30px solid transparent;border-top: 30px solid #333;position: relative;margin: 50px auto;}
+        .border-down span{display: block;width: 0;height: 0;border-left: 28px solid transparent;border-right: 28px solid transparent;border-top: 28px solid #F0981C;position: absolute;left: -28px;top: -29px;}*/
+    nav {
+        overflow: hidden;
+        width: 100%;
+    }
+
+    ul {
+        overflow: hidden;
+    }
+
+    #mytab {
+        width: 44%;
+        margin-left: 20%;
+        height: 100%;
+    }
+
+    li {
+        height: 100%;
+        line-height: 100%;
+    }
+
+    .lileft {
+        margin-left: 4%;
+    }
+
+    .liright {
+        margin-right: 0px;
+    }
+
+    .nvaright {
+        padding-top: 1.2%;
+        float: left;
+    }
+
+    a {
+        margin-top: 15%;
+    }
+
+    #Logo {
+        height: 75px;
+        width: auto;
+    }
+
+    #Content {
+        width: 900px;
+        margin:100px auto;
+        overflow: hidden;
+    }
+
+    #Contentleftt {
+        width: 650px;
+        float: left;
+        overflow: hidden;
+        position:relative;
+    }
+
+    #Contentright {
+        width: 200px;
+        float: right;
+        overflow: hidden;
+    }
+
+    .table-bg {
+        background-color: #F3F3F3;
+        border: 3px solid #D7D7D9;
+    }
+
+    .table-hovers > tbody > tr:hover {
+        background-color: #fff;
+    }
+
+    .Contentleftt-img {
+        height: 107px;
+        width: auto;
+        cursor:pointer;
+    }
+    .Contentleftt-img-z-index {
+        z-index:30;
+        height:107px;
+        width:107px;
+        overflow:hidden;
+    }
+
+    .Contentleftt-img-z-index img{
+         height: 107px;
+        width: auto;
+    }
+
+    .ul1-color {
+        background-color: #63696D;
+        overflow: hidden;
+    }
+        .ul1-color li:nth-child(2):hover {
+          background-color:#4D4D4D
+
+        }
+        .ul1-color li:nth-child(3):hover {
+        background-color:#4E8080
+        }
+        .ul1-color li:nth-child(4):hover {
+          background-color:#9B79AF
+        }
+        .ul1-color li:nth-child(5):hover {
+        background-color:#5F83A8
+        }
+        .ul1-color li:nth-child(6):hover {
+        background-color:#8DAD45
+        }
+
+    .out1 {
+        box-shadow: 0px 8px 10px 3px #aaa;
+        float: left;
+        width: 80px;
+        height: 80px;
+        border: 2px solid #808080;
+        overflow:hidden;
+    }
+    .out1 img{
+       height:80px;
+       width:auto;
+    }
+
+    .out2 {
+        box-shadow: 0px 8px 10px 3px #aaa;
+        float: right;
+        width: 500px;
+        border: 2px solid #808080;
+        padding: 50px 30px;
+        background: #FFFFFF;
+    }
+    .border-left {
+        width: 0;
+        height: 0;
+        border-bottom: 32px solid transparent;
+        border-right: 52px solid #808080;
+        border-left: 0px solid transparent;
+        position: relative;
+        float: right;
+    }
+
+        .border-left span {
+            display: block;
+            width: 0;
+            height: 0;
+            border-bottom: 28px solid transparent;
+            border-right: 48px solid #FFFFFF;
+            border-left: 0px solid transparent;
+            position: absolute;
+            left: 8px;
+            top: 2.5px;
+        }
+
+    .Contentleftt-body {
+        margin-top: 40px;
+        overflow: hidden;
+        padding: 20px 5px;
+
+    }
+        .Contentleftt-Collection {
+        margin-top: 40px;
+        padding: 20px 5px 300px 5px;
+        background:#fff;
+    }
+        .Contentleftt-body ul {
+            margin-bottom:0px;
+
+        }
+
+    .Article {
+        position: relative;
+    }
+     .Article>p>img {
+        width:400px;
+        height:auto;
+    }
+
+        .Article div {
+            position: absolute;
+            bottom:-40px;
+            right: 0px;
+        }
+
+        .Article ul li {
+            list-style: none;
+            height: 24px;
+            line-height: 24px;
+        }
+
+    .Article-img {
+        width: 25px;
+        height: auto;
+    }
+
+    .Article a {
+        margin: 0px 10px;
+        text-decoration: none;
+        color: #AEAEAE;
+        font-size: 18px;
+    }
+
+        .Article a:hover {
+            color: #7594B3;
+        }
+
+    .li-hover :hover {
+        background: #7594B3;
+    }
+
+    .li-hover {
+        background: #EDEDEF;
+    }
+    .Releasebg {
+        width:100%;
+        height:800px;
+        background:#000;
+        opacity:0.4;
+        position:fixed;
+        top:0px;
+        left:0px; 
+        z-index:20
+    }
+    .Releasepage{
+    padding:20px;
+      width:538px;
+      height:500px;
+      background:#fff;
+      position:absolute;
+      left:106px;
+       z-index:30;
+       transform:translateX(-700px);
+       transition:2s;
+    }
+    .Releasepage-input1{
+    width:498px;
+    height:40px;
+    margin-top:20px;
+    position:absolute;
+    left:20px;
+    top:0px;
+
+    }
+    .Releasepage-input2{
+    width:498px;
+    height:40px;
+   position:absolute;
+  opacity:0;
+
+
+    }
+     .w-e-text-container{
+           height: 240px !important;/*!important是重点，因为原div是行内样式设置的高度300px*/
+       }
+    .Main-select {
+        width:100%;
+    }
+        .Main-select option {
+        border-bottom:1px solid #aaa;
+        text-align:center;
+        }
+    .Main-Release-btn {
+    width:498px;
+    height:40px;
+    margin-top:10px;
+    }
+    #music {
+        padding-top:80px;
+    width:400px;
+    height:300px;
+    margin:auto;
+    }
+    #video {
+     padding-top:60px;
+    width:400px;
+    height:240px;
+    margin:auto;
+    }
+    .Collection {
+    transform: scale(0);
+     transition:2s
+    }
+    .AddCollection {
+    transform: scale(0);
+     transition:2s
+    }
+    .AddCollection-img img{
+   height:40px;
+   width:auto;
+    }
+    #collectionimgshow {
+    overflow:hidden;
+    
+    }
+    #collectionimgshow img {
+    width:240px;
+    height:auto;
+    }
+    .collectionimgshow img {
+    height:100px;
+    width:auto;
+    }
+</style>
+
+<div id="Content">
+    <div id="Releasebg"></div>
+
+
+    <div style="width:650px;position:absolute;top:300px;background:#fff;z-index:40" class="AddCollection" id="AddCollection">
+        <div style="width:100%;height:40px;line-height:40px;margin:20px"><strong style="font-size:26px;margin-left:40px;color:#EDEDED" >添加文章</strong>
+        <div style="width:100px;height:40px;text-align:left;float:right">
+                 <input type="button" value="关闭" class="btn btn-danger" ng-click="AddCollectionpagehide()" />
+        </div>
+        </div>
+        <table class="table table-hover">
+            <tr ng-repeat="item in ArticleCountent">
+                <td style="width:500px;">
+                    <div style="padding:10px;width:200px;height:80px;overflow:hidden;background:#EDEDED" class="AddCollection-img" ng-bind-html="item.ArticleCountent_text|to_trusted"></div>
+                </td>
+                <td><input type="button" value="确认添加" class="btn btn-success" ng-click="AddCollectionArticle($index)"/></td>
+            </tr>
+        </table>
+
+        
+    </div>
+
+
+
+    <div id="Contentleftt">
+        <div style="overflow:hidden">
+            
+            <ul class='nav navbar-nav ul1-color '>
+                <li class="Contentleftt-img-z-index" ng-bind-html="usercenter[0].Users_Img|to_trusted">
+                </li>
+                <li>
+                    <img class="Contentleftt-img" src="../Imges/static/文字.png" ng-click="Releasewenzi()" />
+                </li>
+                <li>
+                    <img class="Contentleftt-img" src="../Imges/static/图片.png" ng-click="Releasetupian()"/>
+                </li>
+                <li>
+                    <img class="Contentleftt-img" src="../Imges/static/音乐.png" ng-click="Releaseyinyue()"/>
+                </li>
+                <li>
+                    <img class="Contentleftt-img" src="../Imges/static/视频.png" ng-click="Releaseshipin()"/>
+                </li>
+                <li>
+                    <img class="Contentleftt-img" src="../Imges/static/长文章.png" ng-click="Releaseslongarticle()"/>
+                </li>
+            </ul>
+            <!--用来发布文字-->
+            <div id="Releasepage1" class="Releasepage">
+                <input type="text" placeholder="请输入标题（可不填)" class="form-control" ng-model="Article_title"/>
+                <div id="editor1" ng-model="sendPromt1"></div>
+                <select class="Main-select form-control">
+                    <option>请选择合集（可不选）</option>
+                    <option class="form-control">选项一</option>
+                </select>
+                <input type="checkbox" ng-model="myVar" checked="checked"> 允许他人转载至Cube
+                <input type="button" value="取消" class="btn btn-success Main-Release-btn" ng-click="Releasewenzihide()" />
+                <input type="button" value="发布" class="btn btn-success Main-Release-btn" ng-click="wenziRelease()" />
+            </div>
+            <!--用来发布图片-->
+            <div id="Releasepage2" class="Releasepage">
+                <div id="editor2" ng-model="sendPromt2"></div>
+                <input type="button" value="取消" class="btn btn-success Main-Release-btn" ng-click="Releasetupianhide()" />
+                <input type="button" value="发布" class="btn btn-success Main-Release-btn" ng-click="" />
+            </div>
+            <!--用来发布音乐-->
+            <div id="Releasepage3" class="Releasepage">
+                <a class="btn btn-success Releasepage-input1">选择上传的音乐</a>
+                <input type="file" class="btn btn-success Releasepage-input2" name="file" id="Releasemusic"  onchange="angular.element(this).scope().musicchanges()" />
+                <div id="music"></div>
+                <input type="button" value="取消" class="btn btn-success Main-Release-btn" style="margin-top:60px;" ng-click="Releaseyinyuehide()" />
+                <input type="button" value="发布" class="btn btn-success Main-Release-btn" ng-click="yinyueRelease()" />
+            </div>
+            <!--用来发布视频-->
+            <div id="Releasepage4" class="Releasepage">
+                <a class="btn btn-success Releasepage-input1">选择上传的视频</a>
+                <input type="file" class="btn btn-success Releasepage-input2" name="file" id="Releasevideo" onchange="angular.element(this).scope().videochanges()" />
+                <div id="video">
+
+                </div>
+                <input type="button" value="取消" class="btn btn-success Main-Release-btn" style="margin-top:60px;" ng-click="Releaseshipinhide()" />
+                <input type="button" value="发布" class="btn btn-success Main-Release-btn" ng-click="shipinRelease()"/>
+            </div>
+        </div>
+        
+    <!--用来发布评论-->
+        <div id="Commentarea" style="width:650px;padding:30px;border:1px solid #dddddd;background:#fff;position:fixed;top:140px;z-index:40;transform:scale(0);transition:1s">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="Replycenter">
+                <span class="input-group-btn">
+                    <input class="btn btn-success" type="button" value="发布评论" ng-click="ReplyAdd()">
+
+                </span>
+            </div>
+            <table class="table table-hover">
+                <tr ng-repeat="item in commentcenter">
+                    <td>{{item.Users_Nickname}}</td>
+                    <td style="text-align:left">{{item.Comment_Content}}</td>
+                    <td style="text-align:right"><a ng-click="Reply($index)">回复</a></td>
+                </tr>
+
+            </table>
+            <input type="button" class="btn btn-danger " value="收起" ng-click="Commentareahide()" />
+        </div>
+        <!--文章内容区域-->
+        <div ng-show="1==tablepage">
+            
+            <div class="Contentleftt-body" ng-repeat="item in ArticleCountent">
+                <div>
+                    <div class="out1" ng-bind-html="item.Users_Img|to_trusted">
+                        
+                    </div>
+                    <div class="out2">
+                        <div class="Article">
+                            <p><label>{{item.Users_Nickname}}</label></p>
+                            <p ng-bind-html="item.ArticleCountent_text|to_trusted"></p>
+                            <div><ul class="navbar-nav"><li><a href="javascript:void(0);" ng-click="ArticleGoodNumb($index)">喜欢{{item.Article_Good}}次</a></li><li><a href="javascript:void(0);" ng-click="Commentareashow($index)">评论</a></li><li><a a href="javascript:void(0);" ng-click="follow($index)">收藏</a></li></ul></div>
+                        </div>  
+                    </div>
+                    <div class="border-left">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <div ng-show="2==tablepage">
+            <div class="Contentleftt-Collection" >
+                <table class="table">
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-success" value="创建合集" ng-click="Collectionpageshow()"/>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in Mycollection">
+                        <td>
+                            <div style="width:100px;height:100px;overflow:hidden;border:1px solid;float:left"  class="collectionimgshow"  ng-bind-html="item.Collections_Img|to_trusted">
+                            </div>
+                            <div style="float:left;margin-left:40px;">
+                                <p><strong>{{item.Collections_Name}}</strong></p>
+                                <p>{{item.Collections_Introduce}}</p>
+                            </div>
+                            <div style="float:right;margin-left:200px;">
+                                <p><input type="button" value="添加文章"  class="btn btn-success" ng-click="AddCollectionpageshow($index)"/></p>
+                                <p><input type="button" value="查看文章" class="btn btn-success"  ng-click="FindCollection($index)"/></p>
+                                <p><input type="button" value="删除合集" class="btn btn-danger" ng-click="DeleteCollection($index)"/></p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+               
+
+                <div style="width:650px;height:430px;border:1px solid;overflow:hidden;position:absolute;top:120px;background:#fff" class="Collection" id="Collection">
+                    <div style="width:100%;height:40px;line-height:40px;border-bottom:1px solid;margin-bottom:20px">创建合集</div>
+                    <div style="width:250px;text-align:center;float:left">
+                        <p>合集封面（建议240x240）</p>
+                        <p style="position:relative">
+                            <input type="button" value="上 传 合 集 封 面" class="btn btn-success" style="width:100%" />
+                            <input type="file" id="collectionimg" style="width:100%;height:40px;position:absolute;top:0px;opacity:0" onchange="angular.element(this).scope().collectionimgchanges()"/>
+                        </p>
+                        <p id="collectionimgshow"></p>
+                    </div>
+                    <div style="width:320px;text-align:left;float:left;margin-left:20px">
+                        <p>合集名称</p>
+                        <p><input type="text" class="form-control" ng-model="Collectionname" placeholder="不超过15个中文字" /></p>
+                        <p>合集简介</p>
+                        <p>
+                            <textarea class="form-control" rows="3" ng-model="CollectionIntroduce" style="width:318px;height:140px;resize:none;" placeholder="让他人快速了解合集内容，不超过80个字"></textarea>
+                        </p>
+                        <p>相关标签</p>
+                        <p><input type="text" class="form-control" ng-model="CollectionLabel" placeholder="多个标签用，隔开" /></p>
+                    </div>
+                    <div style="width:100%;height:40px;text-align:right;line-height:40px;padding:20px;">
+                        <input type="button" value="取消" class="btn btn-danger" ng-click="Collectionpagehide()"/> <input type="button" value="确定" class="btn btn-success" ng-click="CreatmyCollection()"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div ng-show="3==tablepage">
+            <div class="Contentleftt-body" ng-repeat="item in ArticleCountent">
+                <div>
+                    <div class="out1" ng-bind-html="item.Users_Img|to_trusted">
+
+                    </div>
+                    <div class="out2">
+                        <div class="Article">
+                            <p><label>{{item.Users_Nickname}}</label></p>
+                            <p ng-bind-html="item.ArticleCountent_text|to_trusted"></p>
+                            <div><ul class="navbar-nav"><li><a href="javascript:void(0);">喜欢{{item.Article_Good}}次</a></li><li><a href="javascript:void(0);" ng-click="Commentareashow($index)">评论</a></li><li><a a href="javascript:void(0);" ng-click="DeleteFollow($index)">删除</a></li></ul></div>
+                        </div>
+                    </div>
+                    <div class="border-left">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div ng-show="4==tablepage">
+            <div class="Contentleftt-body" ng-repeat="item in ArticleCountent">
+                <div>
+                    <div class="out2">
+                        <div class="Article">
+                            <p><label>{{item.Users_Nickname}}</label></p>
+                            <p ng-bind-html="item.ArticleCountent_text|to_trusted"></p>
+                            <div><ul class="navbar-nav"><li><a href="javascript:void(0);" ng-click="Commentareashow($index)">评论</a></li><li><a a href="javascript:void(0);" ng-click="DeleteMyArticle($index)">删除</a></li></ul></div>
+                        </div>
+                    </div>
+                    <div class="border-left">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="5==tablepage">
+            <div class="Contentleftt-body" style="background:#fff">
+              <table class="table table-bordered table-hover">
+                  <tr><td>来源</td>
+                      <td>内容</td>
+                      <td>删除</td>
+                  </tr>
+                  <tr ng-repeat="item in ArticleCountent">
+                      <td>Cube</td>
+                      <td>{{item.PrivateLetter_content}}</td>
+                      <td><input type="button" class="btn btn-danger" value="删除" ng-click="RemoveUserDanger($index)"/></td>
+                  </tr>
+              </table>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="Contentright">
+        <table class="table table-hovers table-bg">
+            <tr>
+                <td colspan="3">
+                    <p>{{usercenter[0].Users_Nickname}}</p>
+                    <p>{{usercenter[0].Users_Nickname}}.cube.com</p>
+                </td>
+            </tr>
+            <tr  ng-click="tablepageindex(1)">
+                <td>
+                    <img src="../Imges/ico/文章.png" />
+                </td>
+                <td>文章浏览</td>
+                <td></td>
+            </tr>
+            <tr ng-click="tablepageindex(2)">
+                <td>
+                    <img src="../Imges/ico/合集.png" />
+                </td>`
+                <td >我的合集</td>
+                <td></td>
+            </tr>
+            <tr  ng-click="tablepageindex(3)">
+                <td>
+                    <img src="../Imges/ico/喜欢.png" />
+                </td>
+                <td>我的收藏</td>
+                <td></td>
+            </tr>
+            <tr ng-click="tablepageindex(4)">
+                <td>
+                    <img src="../Imges/ico/关注.png" />
+                </td>
+                <td>我的文章</td>
+                <td></td>
+            </tr>
+            <tr ng-click="tablepageindex(5)">
+                <td>
+                    <img src="../Imges/ico/私信.png" />
+                </td>
+                <td>私信通知</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      收藏
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+  <ion-content padding>
+    <div *ngFor="let item of listData;let i = index">
+      <div class="userhead">
+          
+          <div class="userheadimg" [innerHtml]="item?.Users_Img"></div>
+          
+          <div class="userheadname">昵称:{{item?.Users_Nickname}}</div>
+      </div>
+          <div>
+            <p class="Article"  [innerHtml]="item?.ArticleCountent_text"></p>
+          </div>
+          <div class="userfooter">
+            <span (click)="Reply(i)">评论</span><span (click)="RemoveArticle(i)">删除</span>
+          </div>
+          <div class="ahr"></div>
+        </div>
+  </ion-content>
+
+
+
+

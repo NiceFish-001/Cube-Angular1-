@@ -1,0 +1,1172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Cube</title>
+    <script src="https://cdn.staticfile.org/angular.js/1.7.6/angular.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.7.6/angular-route.min.js"></script>
+    <script src="../JS/jquery-3.3.1.min.js"></script>
+    <link href="../CSS/bootstrap.css" rel="stylesheet" />
+    <script src="../JS/wangEditor.min.js"></script>  
+
+    <style>
+        * { margin:0px;padding:0px; }
+        body {background-color:#EDEDEF; }
+        nav { overflow:hidden; width:100%; height:75px;}
+        #mytab {width:44%; margin-left:20%;height:100%;}
+        li {height:100%;line-height:100%;position:relative}
+        .lileft {margin-left:4%;}
+        .liright {margin-right:0px;}
+        .nvaright {padding-top:1.2%;float:left; }
+        a { margin-top:15%;}
+        #Logo {height:75px; width:auto;}
+         .Menu-border-left1 {
+        width: 0;
+        height: 0;
+        border-bottom: 10px solid #EDEDEF;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        position:absolute;
+        bottom:-17px;
+    }
+           .Menu-border-left2 {
+        width: 0;
+        height: 0;
+        border-bottom: 10px solid #fff;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        position:absolute;
+        bottom:-17px;
+    }
+        .Menu-page1 {
+        width:100%;
+        height:60px;
+        background:#EDEDEF;
+        position:absolute;
+        top:74px;
+        }
+        .Menu-page2 {
+        width:100%;
+        height:80px;
+        background:#fff;
+        position:absolute;
+        top:74px;
+        }
+        .Menu-ul {
+        width:450px;
+        margin:auto;
+        list-style:none;
+        }
+         .Menu-ul li {
+        float:left;
+        width:225px;
+        line-height:80px;
+        text-align:center;
+        }
+         .Menu-ul li a{
+       text-decoration:none;
+       font-size:20px;
+       font-weight:500;
+       color:#000;
+        }
+        .Menu-ul li:hover{
+       border-bottom:3px solid #9AC600;
+        }
+        .Menu-ul-li-border {
+         border-bottom:3px solid #9AC600;
+        }
+
+    </style>
+    <script>
+        //瀑布流筛选最小像素ID
+        function getMinHindex(arr, val) {
+            for (var i in arr) {
+                if (arr[i] == val) {
+                    return i;
+                }
+            }
+        }
+        //瀑布流对图片进行定位
+        function lodeflod(oBoxs) {
+            var cols = Math.floor(1350 / oBoxs[0].offsetWidth);
+            document.getElementById("Trend-center-body").style.width = cols * oBoxs[0].offsetWidth + 'px';
+            document.getElementById("Trend-center-body").style.margin = 'auto';
+            var hArr = []
+            for (var i = 0; i < oBoxs.length; i++) {
+                if (i < cols) {
+                    hArr.push(oBoxs[i].offsetHeight);
+                }
+                else {
+                    var minH = Math.min.apply(null, hArr);//apply改指向//获取最小的像素高度
+
+                    var index = getMinHindex(hArr, minH);//求最小值索引//获取最小像素的索引
+
+                    oBoxs[i].style.position = 'absolute';//对其进行固定定位
+                    oBoxs[i].style.top = minH + 'px';
+                    oBoxs[i].style.left = oBoxs[0].offsetWidth * index + 'px';
+                    hArr[index] += oBoxs[i].offsetHeight;
+
+                }
+            }
+        }
+
+       var app= angular.module("myApp", ["ngRoute"])
+       app.controller("myCtrl-Menu", function ($scope, $location,$http) {
+            //截取上个页面传递的参数
+          // var loc = location.href;
+           //var n1 = loc.length;//地址的总长度10
+           //var n2 = loc.indexOf("=");//取得=号的位置
+           //$scope. UserId = decodeURI(loc.substr(n2 + 1, n1 - n2));//从=号后面的内容
+           $scope. UserId=localStorage.getItem(localStorage.key("用户名"))
+           $scope.Menupage = 1;
+           $scope.Menuli = 1;
+           $scope.MenupageClick = function (Mneupageindex) {
+               $scope.Menupage = Mneupageindex;
+           }
+           $scope.MenuliClick = function (Mneuliindex) {
+               $scope.Menuli = Mneuliindex;
+           }
+           $scope.SelectUserClick = function () {
+               console.log($scope.Users_AccountNumber)
+               if ($scope.Users_AccountNumber !=undefined) {
+                   location.href = "UsersArticle.html?" + "ID=" + encodeURI($scope.Users_AccountNumber);//在本页面打开新页面
+               }
+               else {
+                    alert("请输入要查找的用户账号")
+               }
+               
+           }
+        })
+
+
+
+       app.controller("Main-MyCtrl", function ($scope, $http) {
+           $scope.tablepage = 1;
+           //在加再载控制器时提交请求加载文章
+           $scope.Personaldata = {
+               Users_ID: $scope.UserId,
+           }
+           $http({
+               method: 'POST',
+               data: $scope.Personaldata,
+               url: 'http://39.96.174.51:80/API/Main/MainArticleCenter.ashx',
+               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+               transformRequest: function (obj) {
+                   var str = [];
+                   for (var p in obj) {
+                       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                   }
+                   return str.join("&");
+               }
+           }).then(function (Article) {
+               console.log(Article.data)
+               $scope.ArticleCountent = Article.data;
+           }, function () {
+               alert("因为某些问题加载失败0000000!")
+           })
+
+           $http({
+               method: 'POST',
+               data: $scope.Personaldata,
+               url: ' http://39.96.174.51:80/API/Main/userinfo.ashx',
+               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+               transformRequest: function (obj) {
+                   var str = [];
+                   for (var p in obj) {
+                       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                   }
+                   return str.join("&");
+               }
+           }).then(function (Article) {
+               console.log(Article.data)
+               $scope.usercenter = Article.data;
+           }, function () {
+               alert("因为某些问题加载失败!")
+           })
+
+          
+
+           //发布文字富文本框
+           var E, editor1;
+           E = window.wangEditor;
+           editor1 = new wangEditor('#editor1'); //id一定要一致
+           editor1.customConfig.menus = [
+               'head',  // 标题
+               'bold',  // 粗体
+               'fontSize',  // 字号
+               'fontName',  // 字体
+               'italic',  // 斜体
+               'underline',  // 下划线
+               'link',  // 插入链接
+               'list',  // 列表
+               'justify',  // 对齐方式
+               'image',  // 插入图片
+               'table', // 表格
+               'undo'  // 撤销
+           ];
+           editor1.customConfig.showLinkImg = false
+           editor1.customConfig.uploadImgShowBase64 = true;
+           // 将图片大小限制为 10M
+           editor1.customConfig.uploadImgMaxSize = 2 * 1024 * 1024;
+           editor1.create();
+
+           //发布图片富文本框
+           var F, editor2;
+           F = window.wangEditor;
+           editor2 = new wangEditor('#editor2'); //id一定要一致
+           editor2.customConfig.menus = [
+               'justify',  // 对齐方式
+               'image',  // 插入图片
+               'undo'  // 撤销
+           ];
+           editor2.customConfig.showLinkImg = false
+           editor2.customConfig.uploadImgShowBase64 = true;
+           // 将图片大小限制为 10M
+           editor2.customConfig.uploadImgMaxSize = 2 * 1024 * 1024;
+           editor2.create();
+          
+           $scope.wenziRelease = function () {
+               $scope.ArticleCountent_text = editor1.txt.html();
+             
+               if ($scope.myVar) {
+                   $scope.Article_Reprint=1
+               }
+               else {
+                   $scope.Article_Reprint = 0
+               }
+       
+               $scope.Releasedata = {
+                   Article_type: "文字",
+                   Article_title: $scope.Article_title,
+                   Article_Reprint: $scope.Article_Reprint,
+                   Users_ID: $scope.UserId,
+                   ArticleCountent_text:$scope.ArticleCountent_text,
+           }
+               console.log($scope.Releasedata);
+               $http({
+                   method: 'POST',
+                   url: 'http://39.96.174.51:80/API/Main/wenziRelease.ashx',
+                   data: $scope.Releasedata,
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function success(da) {
+                   alert(da.data)
+                   $("#Releasepage1").css("transform", "translateX(-700px)");
+                   $("#Releasebg").removeClass("Releasebg");
+                  
+               },function error() {
+               alert("网络波动请求失败")
+           });
+           }
+           $scope.yinyueRelease = function () {
+               var form = new FormData();
+               var file = document.getElementById("Releasemusic").files[0];
+               form.append('file', file);
+               console.log(form);
+               $http({
+                   method: 'POST',
+                   url: 'http://39.96.174.51:80/API/Media/Media.ashx',
+                   data: form,
+                   headers: { 'Content-Type': undefined },
+                   transformRequest: angular.identity,
+                   transformResponse: function (data) {  // 转换response,这样就能接收后台传回来String，默认接收是json。没写这个属性之前，上传成功后却返回到error，而且会报上面的错误，写了这个就不会
+                       return data;
+                   },
+               }).then(function (da) {
+                   console.log(da.data)
+                   $scope.Releasedata = {
+                       Article_type: "音乐",
+                       Users_ID: $scope.UserId,
+                       ArticleCountent_text:"<audio controls = "+"controls"+" ><source src = "+da.data+"  type = " +"audio/mpeg"+" /></audio >",
+                   }
+                   console.log($scope.Releasedata);
+                   $http({
+                       method: 'POST',
+                       url: 'http://39.96.174.51:80/API/Main/yinyueRelease.ashx',
+                       data: $scope.Releasedata,
+                       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                       transformRequest: function (obj) {
+                           var str = [];
+                           for (var p in obj) {
+                               str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                           }
+                           return str.join("&");
+                       }
+                   }).then(function (da) {
+                      alert(da.data)
+                   }, function () {
+                       alert("网络连接中断！")
+                   })
+               }, function (err) {
+                   console.log(err)
+               })
+
+           }
+
+           $scope.shipinRelease = function () {
+               var form = new FormData();
+               var file = document.getElementById("Releasevideo").files[0];
+               form.append('file', file);
+               console.log(form);
+               $http({
+                   method: 'POST',
+                   url: 'http://39.96.174.51:80/API/Media/Media.ashx',
+                   data: form,
+                   headers: { 'Content-Type': undefined },
+                   transformRequest: angular.identity,
+                   transformResponse: function (data) {  // 转换response,这样就能接收后台传回来String，默认接收是json。没写这个属性之前，上传成功后却返回到error，而且会报上面的错误，写了这个就不会
+                       return data;
+                   },
+               }).then(function (da) {
+                   console.log(da.data)
+                   $scope.Releasedata = {
+                       Article_type: "视频",
+                       Users_ID: $scope.UserId,
+                       ArticleCountent_text: " <video style=" + "width:60%" + " controls=" + "controls" + "><source  src=" + da.data + " type=" + "video/mp4" + " /></video>",
+                   }
+                   console.log($scope.Releasedata);
+                   $http({
+                       method: 'POST',
+                       url: 'http://39.96.174.51:80/API/Main/shipinRelease.ashx',
+                       data: $scope.Releasedata,
+                       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                       transformRequest: function (obj) {
+                           var str = [];
+                           for (var p in obj) {
+                               str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                           }
+                           return str.join("&");
+                       }
+                   }).then(function (da) {
+                       alert(da.data)
+                   }, function () {
+                       alert("网络连接中断！")
+                   })
+               }, function (err) {
+                   console.log(err)
+               })
+               
+               
+           }
+
+           //将选中的音乐在页面加载
+           $scope.musicchanges = function () {
+
+               var uplode = document.getElementById('Releasemusic').files[0];
+
+               var uplodeName = document.getElementById('Releasemusic').value;
+               $scope.anyfilename = uplode;
+            
+               //console.log(imgFile);
+               //创建filereader对象
+               var fileReader = new FileReader();
+               //读取文件
+               fileReader.readAsDataURL(uplode);
+               //设置回调函数，即获取到文件路径后的操作
+               fileReader.onload = function () {
+
+                   console.log(fileReader.result)
+                   var music = $("<audio controls=" + "controls" + " ><source src=" + fileReader.result + " type=" + "audio/mpeg" + " /></audio>")
+                   $("#music").append(music);
+                   
+                   //document.getElementById('img-id').src = fileReader.result;
+               }
+           }
+           //将选中的视频在页面加载
+           $scope.videochanges = function () {
+
+               var uplode = document.getElementById('Releasevideo').files[0];
+
+               var uplodeName = document.getElementById('Releasevideo').value;
+               $scope.anyfilename = uplode;
+
+               //console.log(imgFile);
+               //创建filereader对象
+               var fileReader = new FileReader();
+               //读取文件
+               fileReader.readAsDataURL(uplode);
+               //设置回调函数，即获取到文件路径后的操作
+               fileReader.onload = function () {
+                   console.log(fileReader.result)
+                   var video = $("<video controls=" + "controls" + " style=" + "height:240px;width:400px;" + "><source src=" + fileReader.result+ " type=" + "video/mp4" + "/></video>")
+                   $("#video").append(video);
+                   //document.getElementById('img-id').src = fileReader.result;
+               }
+           }
+           //将选中的合集在页面进行加载
+           $scope.collectionimgchanges = function () {
+               
+               $("#collectionimgshow").children().remove()
+               var uplode = document.getElementById('collectionimg').files[0];
+               $scope.anyfilename = uplode;
+               //console.log(imgFile);
+               //创建filereader对象
+               var fileReader = new FileReader();
+               //读取文件
+               fileReader.readAsDataURL(uplode);
+               //设置回调函数，即获取到文件路径后的操作
+               fileReader.onload = function () {
+                   //console.log(fileReader.result)
+                   var userheadshow = $("<img src=" + fileReader.result + " />")
+                   $("#collectionimgshow").append(userheadshow);
+               }
+           }
+           //发布长文章进行页面跳转
+           $scope.Releaseslongarticle = function () {
+               var s = $scope.UserId
+               window.open("Longarticle.html?" + "ID=" + encodeURI(s));
+           }
+
+
+           $scope.tablepageindex = function (index) {
+
+               if (index == 1) {
+                   $scope.Personaldata = {
+                       Users_ID: $scope.UserId,
+                   }
+                   $http({
+                       method: 'POST',
+                       data: $scope.Personaldata,
+                       url: 'http://39.96.174.51:80/API/Main/MainArticleCenter.ashx',
+                       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                       transformRequest: function (obj) {
+                           var str = [];
+                           for (var p in obj) {
+                               str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                           }
+                           return str.join("&");
+                       }
+                   }).then(function (Article) {
+                       console.log(Article.data)
+                       $scope.ArticleCountent = Article.data;
+                   }, function () {
+                       alert("因为某些问题加载失败0000000!")
+                   })
+               }
+              else if (index == 2) {
+                   
+                   $scope.Personaldata = {
+                       Users_ID: $scope.UserId,
+                   }
+                   $http({
+                       method: 'POST',
+                       data: $scope.Personaldata,
+                       url: 'http://39.96.174.51:80/API/Main/Mycollection.ashx',
+                       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                       transformRequest: function (obj) {
+                           var str = [];
+                           for (var p in obj) {
+                               str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                           }
+                           return str.join("&");
+                       }
+                   }).then(function (Article) {
+                       $scope.Mycollection = Article.data;
+                   }, function () {
+                       alert("因为某些问题加载失败!")
+                   })
+              }
+               
+               else if (index == 3) {
+                   $scope.Personaldata = {
+                       Users_ID: $scope.UserId,
+                   }
+                   $http({
+                       method: 'POST',
+                       data: $scope.Personaldata,
+                       url: 'http://39.96.174.51:80/API/Main/FollowArticleCenter.ashx',
+                       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                       transformRequest: function (obj) {
+                           var str = [];
+                           for (var p in obj) {
+                               str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                           }
+                           return str.join("&");
+                       }
+                   }).then(function (Article) {
+                       $scope.ArticleCountent = Article.data;
+                   }, function () {
+                       alert("因为某些问题加载失败!")
+                   })
+               }
+            else   if (index==4) {
+                   $scope.Personaldata = {
+                       Users_ID: $scope.UserId,
+                   }
+                   $http({
+                       method: 'POST',
+                       data: $scope.Personaldata,
+                       url: 'http://39.96.174.51:80/API/Main/MyArticleCenter.ashx',
+                       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                       transformRequest: function (obj) {
+                           var str = [];
+                           for (var p in obj) {
+                               str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                           }
+                           return str.join("&");
+                       }
+                   }).then(function (Article) {
+                       $scope.ArticleCountent = Article.data;
+                   }, function () {
+                       alert("因为某些问题加载失败!")
+                   })
+            }
+            else if (index == 5) {
+                $scope.Personaldata = {
+                    Users_ID: $scope.UserId,
+                }
+                $http({
+                    method: 'POST',
+                    data: $scope.Personaldata,
+                    url: 'http://39.96.174.51:80/API/Main/UserDanger.ashx',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function (Article) {
+                    $scope.ArticleCountent = Article.data;
+                }, function () {
+                    alert("因为某些问题加载失败!")
+                })
+
+                $scope.RemoveUserDanger = function (index) {
+                    var fromdata = {
+                        PrivateLetter_ReceiveID: $scope.UserId, //用户ID
+                       PrivateLetter_ID:$scope.ArticleCountent[index].PrivateLetter_ID //文章ID
+                    }
+                    $http({
+                        method: 'POST',
+                        data: fromdata,
+                        url: 'http://39.96.174.51:80/API/Main/RemoveUseDanger.ashx',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        transformRequest: function (obj) {
+                            var str = [];
+                            for (var p in obj) {
+                                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                            }
+                            return str.join("&");
+                        }
+                    }).then(function (Article) {
+                        alert(Article.data)
+                    }, function () {
+                        alert("因为某些问题加载失败!")
+                    })
+                }
+            }
+               $scope.tablepage = index;
+           }
+           //对文章进行点赞
+           $scope.ArticleGoodNumb = function (index) {
+               var fromdata = {
+                   Article_ID: $scope.ArticleCountent[index].Article_ID
+               }
+               $http({
+                   method: 'POST',
+                   data: fromdata,
+                   url: 'http://39.96.174.51:80/API/Main/ArticleGood.ashx',
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function (Article) {
+                   alert(Article.data)
+               }, function () {
+                   alert("因为某些问题加载失败!")
+               })
+           }
+           //合集添加文章
+           $scope.AddCollectionArticle = function (index) {
+               alert($scope.CollectionID)
+               alert($scope.ArticleCountent[index].Article_ID)
+               var AddCollectiondata = {
+                   Collections_ID: $scope.CollectionID,
+                   Article_ID: $scope.ArticleCountent[index].Article_ID
+               }
+               $http({
+                   method: 'POST',
+                   data: AddCollectiondata,
+                   url: 'http://39.96.174.51:80/API/Main/AddCollectionArticle.ashx',
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function (Article) {
+                   alert(Article.data)
+               }, function () {
+                   alert("因为某些问题加载失败!")
+               })
+           }
+           //查看合集文章内容
+           $scope.FindCollection = function (index) {
+               $scope.CollectionID = $scope.Mycollection[index].Collections_ID
+               window.open("AddCollection.html?" + "ID=" + encodeURI($scope.CollectionID));
+           }
+           //删除合集
+           $scope.DeleteCollection = function (index) {
+               $scope.CollectionID = $scope.Mycollection[index].Collections_ID
+               var deletedata = {
+                   Collections_ID: $scope.CollectionID
+               }
+               $http({
+                   method: 'POST',
+                   data: deletedata,
+                   url: 'http://39.96.174.51:80/API/Main/DeleteCollection.ashx',
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function (Article) {
+                   $scope.ArticleCountent = Article.data;
+               }, function () {
+                   alert("因为某些问题加载失败!")
+               })
+           }
+           //删除我的文章
+           $scope.DeleteMyArticle = function (index) {
+               alert("123")
+               alert($scope.ArticleCountent[index].Article_ID)
+               var DeleteFollowdata = {
+                   Users_ID: $scope.UserId,
+                   Article_ID: $scope.ArticleCountent[index].Article_ID
+               }
+               $http({
+                   method: 'POST',
+                   data: DeleteFollowdata,
+                   url: 'http://39.96.174.51:80/API/Main/RemoveMyArticle.ashx',
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function (Article) {
+                   alert(Article.data);
+               }, function () {
+                   alert("因为某些问题删除失败!")
+               })
+           }
+           //删除我的收藏
+           $scope.DeleteFollow = function (index) {
+               alert($scope.ArticleCountent[index].Article_ID)
+               var DeleteFollowdata = {
+                   Users_LikeID: $scope.UserId,
+                   Users_LikeArticleID: $scope.ArticleCountent[index].Article_ID
+               }
+               $http({
+                   method: 'POST',
+                   data: DeleteFollowdata,
+                   url: 'http://39.96.174.51:80/API/Main/RemoveMyFollow.ashx',
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function (Article) {
+                   alert(Article.data);
+               }, function () {
+                   alert("因为某些问题加载失败!")
+               })
+           }
+           //合集添加文章显示
+           $scope.AddCollectionpageshow = function (index) {
+               $scope.CollectionID = $scope.Mycollection[index].Collections_ID
+               alert($scope.CollectionID)
+               $scope.Personaldata = {
+                   Users_ID: $scope.UserId,
+               }
+               $http({
+                   method: 'POST',
+                   data: $scope.Personaldata,
+                   url: 'http://39.96.174.51:80/API/Main/MyArticleCenter.ashx',
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function (Article) {
+                   $scope.ArticleCountent = Article.data;
+               }, function () {
+                   alert("因为某些问题加载失败!")
+               })
+               $("#AddCollection").css("transform", "scale(1,1)");
+               $("#Releasebg").addClass("Releasebg");
+           }
+           //合集添加文章关闭
+           $scope.AddCollectionpagehide = function () {
+               $("#Releasebg").removeClass("Releasebg");
+               $("#AddCollection").css("transform", "scale(0,0)");
+           }
+           //创建合集
+           $scope.CreatmyCollection = function () {
+               var collectionimg = $("#collectionimgshow").html();
+               var fromdata = {
+                   Collections_Img: collectionimg,
+                   Collections_Name: $scope.Collectionname,
+                   Collections_Introduce: $scope.CollectionIntroduce,
+                   Users_ID: $scope.UserId,
+                   Collections_Label: $scope.CollectionLabel
+               }
+               console.log(fromdata);
+               $http({
+                   method: 'POST',
+                   url: 'http://39.96.174.51:80/API/Main/Creatmycollection.ashx',
+                   data: fromdata,
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function success(da) {
+                   alert(da.data)
+                   $("#Collection").css("transform", "scale(0,0)");
+               }, function error() {
+                   $scope.arr2 = '请求失败';
+               });
+           }
+           //对文章进行关注
+           $scope.follow = function (index) {
+               var fromdata = {
+                   Users_LikeID: $scope.UserId,
+                   Users_LikeArticleID: $scope.ArticleCountent[index].Article_ID,
+               }
+               $http({
+                   method: 'POST',
+                   url: 'http://39.96.174.51:80/API/Main/FollowArticle.ashx',
+                   data: fromdata,
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function success(da) {
+                   alert(da.data)
+               }, function error() {
+                   alert("网络波动请求失败")
+               });
+
+           }
+           //进行回复
+           $scope.Reply = function (index) {
+               $scope.Replycenter = "回复" + $scope.commentcenter[index].Users_Nickname+":"
+           }
+           $scope.ReplyAdd = function () {
+               var fromdata = {
+                   Article_ID:$scope.ReplyArticle_ID,
+                   Users_ID: $scope.UserId,
+                   Replycenter: $scope.Replycenter
+               }
+               console.log(fromdata)
+               $http({
+                   method: 'POST',
+                   url: 'http://39.96.174.51:80/API/Main/AddReply.ashx',
+                   data: fromdata,
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function success(da) {
+                   alert(da.data)
+                   
+               }, function error() {
+                   alert("网络波动发布失败")
+               });
+           }
+           //控制评论区的显示取消
+           $scope.Commentareashow = function (index) {
+               $scope.ReplyArticle_ID = $scope.ArticleCountent[index].Article_ID
+               var fromdata = {
+                   Article_ID: $scope.ReplyArticle_ID
+               }
+               $http({
+                   method: 'POST',
+                   url: 'http://39.96.174.51:80/API/Main/commentcenter.ashx',
+                   data: fromdata,
+                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                   transformRequest: function (obj) {
+                       var str = [];
+                       for (var p in obj) {
+                           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                       }
+                       return str.join("&");
+                   }
+               }).then(function success(da) {
+                   //alert(da.data)
+                   $scope.commentcenter=da.data
+               }, function error() {
+                   $scope.arr2 = '请求失败';
+               });
+               $("#Releasebg").addClass("Releasebg");
+               $("#Commentarea").css("transform", "scale(1)")
+           }
+           $scope.Commentareahide = function () {
+               $("#Releasebg").removeClass("Releasebg");
+               $("#Commentarea").css("transform", "scale(0)")
+           }
+           //控制创建合集的显示取消
+           $scope.Collectionpageshow = function () {
+               $("#Collection").css("transform", "scale(1,1)");
+           }
+           $scope.Collectionpagehide = function () {
+               $("#Collection").css("transform", "scale(0,0)");
+           }
+           //控制文字发布文本框的显示取消
+           $scope.Releasewenzi = function () {
+               $("#Releasepage1").css("transform", "translateX(0px)");
+               $("#Releasebg").addClass("Releasebg");
+           }
+           $scope.Releasewenzihide = function () {
+               $("#Releasebg").removeClass("Releasebg");
+               $("#Releasepage1").css("transform", "translateX(-700px)");
+           }
+           //控制图片发布文本框的显示取消
+           $scope.Releasetupian = function () {
+               $("#Releasebg").addClass("Releasebg");
+               $("#Releasepage2").css("transform", "translateX(0px)");
+           }
+           $scope.Releasetupianhide = function () {
+               $("#Releasebg").removeClass("Releasebg");
+               $("#Releasepage2").css("transform", "translateX(-700px)");
+           }
+           //控制音乐发布文本框的显示取消
+           $scope.Releaseyinyue = function () {
+               $("#Releasebg").addClass("Releasebg");
+               $("#Releasepage3").css("transform", "translateX(0px)");
+           }
+           $scope.Releaseyinyuehide = function () {
+               $("#Releasebg").removeClass("Releasebg");
+               $("#Releasepage3").css("transform", "translateX(-700px)");
+           }
+           //控制视频发布文本框的显示取消
+           $scope.Releaseshipin = function () {
+               $("#Releasebg").addClass("Releasebg");
+               $("#Releasepage4").css("transform", "translateX(0px)");
+           }
+           $scope.Releaseshipinhide = function () {
+               $("#video").children().remove()
+               $("#Releasebg").removeClass("Releasebg");
+               $("#Releasepage4").css("transform", "translateX(-700px)");
+           }
+        });
+
+       app.controller('myCtrl-Trend', function ($scope, $timeout, $http) {
+           //加载所有的长文章
+           $http({
+               method: 'POST',
+               url: 'http://39.96.174.51:80/API/Trend/AllTopLongarticle.ashx',
+           }).then(function (Article) {
+               console.log(Article.data)
+               $scope.AllTopLongarticle = Article.data;
+           }, function () {
+               alert("因为某些问题加载失败!")
+           })
+
+            var a = $timeout(function () {
+                var oBoxs = document.getElementsByClassName("Trend-div-center1");
+                lodeflod(oBoxs)
+            }, 5000)
+            $scope.Viewdetails = function (index) {
+                $scope.user_img = $scope.AllTopLongarticle[index].Users_Img;
+                $scope.user_nickname = $scope.AllTopLongarticle[index].Users_Nickname
+                $scope.article_img = $scope.AllTopLongarticle[index].Article_img
+                $scope.article_text = $scope.AllTopLongarticle[index].ArticleCountent_text
+                $("#trend_bg").addClass("trend_bg")
+                $("#Longarticle").css("transform", "scale(1)")
+            }
+            $scope.Viewdetailshide = function (index) {
+                
+                $("#Longarticle").css("transform", "scale(0)")
+                $("#trend_bg").removeClass("trend_bg")
+            }
+        });
+
+        app.controller("Myctrl-Topic", function ($scope) {
+            $scope.Topicbtnclick = true;
+            $scope.Topicbtnclicks = function () {
+                if ($scope.Topicbtnclick) {
+                    $scope.Topicbtnclick = false;
+                }
+                else {
+                    $scope.Topicbtnclick = true;
+                }
+            }
+        });
+
+        app.controller("Myctrl-GotTalent", function ($scope) {
+            $scope.GotTalentbtnclick = 1;
+            $scope.GotTalentbtnclicks = function (index) {
+                $scope.GotTalentbtnclick = index;
+            }
+        });
+
+        app.controller("Myctrl-Lable", function ($scope,$http) {
+            $http({
+                method: 'POST',
+                url: 'http://39.96.174.51:80/API/Lable/labletop.ashx',
+            }).then(function (Article) {
+                console.log(Article.data)
+                $scope.AllTopLongarticle = Article.data;
+            }, function () {
+                alert("因为某些问题加载失败!")
+            })
+
+            $scope.InsertTopLable = function (index) {
+                var fromdata = {
+                    UserID: $scope.UserId,
+                    user_interest: $scope.AllTopLongarticle[index].user_interest
+                }
+                $http({
+                    method: 'POST',
+                    data: fromdata,
+                    url: 'http://39.96.174.51:80/API/Labelselectionl/InsertLable.ashx',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function (Article) {
+                    alert(Article.data)
+                }, function () {
+                    alert("因为某些问题加载失败0000000!")
+                })
+            }
+
+        })
+        //app.run(function ($timeout) {//等待AngularJS加载完成之后触发事件
+            
+        //});
+        app.controller("Myctrl-PersonalCenter", function ($scope, $http) {
+            $scope.Personaldata = {
+                Users_ID: $scope.UserId,
+            }
+            //在加载控制器的时候发起请求加载属于此用户的账号信息
+            $http({
+                method: 'POST',
+                data: $scope.Personaldata,
+                url: 'http://39.96.174.51:80/API/PersonalCenter/PersonalCenter.ashx',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var p in obj) {
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function (Article) {
+                $scope.usercenter = Article.data;
+                $scope.Users_Nickname=Article.data[0].Users_Nickname
+                $scope.User_introduction=Article.data[0].User_introduction
+            }, function () {
+                alert("因为某些问题加载失败!")
+            })
+            //设置用户头像对选择的头像进行即时展示
+            $scope.imgchanges = function () {
+                $("#userheadshow").children().remove()
+                var uplode = document.getElementById('Userhead').files[0];
+                $scope.anyfilename = uplode;
+                //console.log(imgFile);
+                //创建filereader对象
+                var fileReader = new FileReader();
+                //读取文件
+                fileReader.readAsDataURL(uplode);
+                //设置回调函数，即获取到文件路径后的操作
+                fileReader.onload = function () {
+                    //console.log(fileReader.result)
+                    var userheadshow = $("<img src=" + fileReader.result + " />")
+                    $("#userheadshow").append(userheadshow);
+                }
+            }
+            $scope.UserLatestdata = function () {
+                var User_Imgs= $("#userheadshow").html()
+                var fromlastdata = {
+                    Users_Nickname: $scope.Users_Nickname,
+                    User_introduction: $scope.User_introduction,
+                    Users_Img: User_Imgs,
+                    Users_ID: $scope.UserId
+                }
+                $http({
+                    method: 'POST',
+                    data: fromlastdata,
+                    url: 'http://39.96.174.51:80/API/PersonalCenter/Latestdata.ashx',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function (data) {
+                   alert(data.data)
+                }, function () {
+                    alert("因为某些问题加载失败!")
+                })
+            }
+            $scope.upuserlable = function () {
+                var fromlastdata = {
+                    UserID: $scope.UserId
+                }
+                $http({
+                    method: 'POST',
+                    data: fromlastdata,
+                    url: 'http://39.96.174.51:80/API/PersonalCenter/Updatalable.ashx',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }).then(function (data) {
+                    console.log(data.data)
+                    window.open("Labelselectionl.html");
+                }, function () {
+                    alert("因为某些问题加载失败!")
+                })
+            }
+        })
+
+        //用来定义路由加载其他模板快
+        app.config(['$routeProvider', function ($routeProvider) {
+            $routeProvider.when('/a', {//'/2'定义的路由路径，以后通过此路径访问，通常定义为短路径
+                templateUrl: "Main.html",//"/home/index2"是路由实际访问的路径，可以是asp.net mvc的访问路径（如此例），也可是具体的页面路径，如“test/test.html"
+                controller: 'Main-MyCtrl'//路由跳转的controller,后面必须定义此控制器
+            });
+            $routeProvider.when('/b', {
+                templateUrl: "Trend.html",
+                controller: 'myCtrl-Trend'
+            })
+            $routeProvider.when('/c', {
+                templateUrl: "Topic.html",
+                controller: 'Myctrl-Topic'
+            })
+            $routeProvider.when('/d', {
+                templateUrl: "Lable.html",
+                controller: 'Myctrl-Lable'
+            })
+            $routeProvider.when('/e', {
+                templateUrl: "GotTalent.html",
+                controller: 'Myctrl-GotTalent'
+            })
+            $routeProvider.when('/f', {
+                templateUrl: "  Appdownload.html",
+                controller: 'Myctrl-Appdownload'
+            })
+            $routeProvider.when('/i', {
+                templateUrl: "PersonalCenter.html",
+                controller: 'Myctrl-PersonalCenter'
+            })
+            .otherwise({ redirectTo: '/a' });
+        }]);
+      
+        app.filter(
+         'to_trusted', ['$sce', function ($sce) {
+             return function (text) {
+                 return $sce.trustAsHtml(text);
+             }
+         }]
+       );
+    </script>
+</head>
+<body ng-app="myApp" style="overflow:auto">
+    <div ng-controller="myCtrl-Menu">
+        <nav class="navbar navbar-inverse" role="navigation">
+            <ul class='nav navbar-nav ' id='mytab'>
+                <li><img id="Logo" src="../Imges/static/cube.png" /></li>
+                <li class="lileft" ng-click="MenupageClick(1)"><a href="#!/a">首页
+                    <div class="Menu-border-left1" ng-if="Menupage==1"></div></a>
+                </li>
+                <li class="lileft" ng-click="MenupageClick(2)"><a href="#!/b">浏览
+                    <div class="Menu-border-left2" ng-if="Menupage==2"></div></a>
+                </li>
+                <li class="lileft" ng-click="MenupageClick(3)"><a href="#!/f">APP
+                    <div class="Menu-border-left1" ng-if="Menupage==3"></div></a>
+                </li>
+                <li class="lileft" ng-click="MenupageClick(4)"><a href="#!/i">设置</a>
+                </li>
+                <li class="lileft" ng-click="MenupageClick(5)"><a href="Login.html">退出</a>
+                </li>
+                
+            </ul>
+            
+            <div>
+                <div class="nvaright">
+                    <input type='text' class='form-control' ng-model="Users_AccountNumber" placeholder="搜索用户账号">
+                </div>
+                <div class="nvaright">
+                    <input type="button" class="btn btn-default" ng-click="SelectUserClick()" value="搜索" />
+                </div>
+            </div>
+        </nav>
+        <!--页面1-->
+        <div  ng-if="Menupage==1" class="Menu-page1"></div><!--菜单指示箭头-->
+        <!--页面2-->
+        <div ng-if="Menupage==2" class="Menu-page2"> <!--浏览菜单-->
+            <ul class='Menu-ul ' style="margin-bottom:100px;" >
+                <li  ng-class="{'Menu-ul-li-border':Menuli==1}" >
+                    <a href="#!/b" ng-click="MenuliClick(1)">
+                        趋 势
+                    </a>
+                </li>
+
+                <li ng-class="{'Menu-ul-li-border':Menuli==3}" >
+                    <a href="#!d" ng-click="MenuliClick(3)">
+                        标  签
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <!--页面3-->
+        <div ng-if="Menupage==3" class="Menu-page1">
+     
+        </div><!--菜单指示箭头-->
+        <div ng-view></div><!--重新定向路由显示页面-->
+    </div>
+   
+   
+</body>
+</html>
